@@ -1,95 +1,95 @@
-constexpress = require('express');
-constrouter = express.Router();
-constContato = require('../modelos/contato');
+const express = require('express');
+const router = express.Router();
+const Contato = require('../models/contato');
 
 
-//Rotaparaobtertodososcontatos
+// Rota para obter todos os contatos
 router.get('/', async (req, res) => {
-    try {
-        constcontatos = awaitContato.find();
-        res.json(contatos);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+  try {
+    const contatos = await Contato.find();
+    res.json(contatos);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 
-//RotaparaobterumcontatoporID
+// Rota para obter um contato por ID
 router.get('/:id', getContato, (req, res) => {
-    res.json(res.contato);
+  res.json(res.contato);
 });
 
 
-//Rotaparacriarumnovocontato
+// Rota para criar um novo contato
 router.post('/', async (req, res) => {
-    constcontato = newContato({
-        nome: req.body.nome,
-        email: req.body.email,
-        telefone: req.body.telefone,
-        endereco: req.body.endereco,
-        foto: req.body.foto,
-    });
+  const contato = new Contato({
+    nome: req.body.nome,
+    email: req.body.email,
+    telefone: req.body.telefone,
+    endereco: req.body.endereco,
+    foto: req.body.foto,
+  });
 
 
-    try {
-        constnewContato = awaitcontato.save();
-        res.status(201).json(newContato);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
+  try {
+    const newContato = await contato.save();
+    res.status(201).json(newContato);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
 
 
-//RotaparaatualizarumcontatoporID
+// Rota para atualizar um contato por ID
 router.put('/:id', getContato, async (req, res) => {
-    if (req.body.nome != null) {
-        res.contato.nome = req.body.nome;
-    }
-    if (req.body.email != null) {
-        res.contato.email = req.body.email;
-    }
-    if (req.body.telefone != null) {
-        res.contato.telefone = req.body.telefone;
-    }
-    if (req.body.endereco != null) {
-        res.contato.endereco = req.body.endereco;
-    }
-    if (req.body.foto != null) {
-        res.contato.foto = req.body.foto;
-    }
+  if (req.body.nome != null) {
+    res.contato.nome = req.body.nome;
+  }
+  if (req.body.email != null) {
+    res.contato.email = req.body.email;
+  }
+  if (req.body.telefone != null) {
+    res.contato.telefone = req.body.telefone;
+  }
+  if (req.body.endereco != null) {
+    res.contato.endereco = req.body.endereco;
+  }
+  if (req.body.foto != null) {
+    res.contato.foto = req.body.foto;
+  }
 
 
-    try {
-        constupdatedContato = awaitres.contato.save();
-        res.json(updatedContato);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
+  try {
+    const updatedContato = await res.contato.save();
+    res.json(updatedContato);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
 
 
-//RotaparaexcluirumcontatoporID
+// Rota para excluir um contato por ID
 router.delete('/:id', getContato, async (req, res) => {
-    try {
-        awaitres.contato.deleteOne();
-        res.json({ message: 'Contatoexcluídocomsucesso!' });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+  try {
+    await res.contato.deleteOne();
+    res.json({ message: 'Contato excluído com sucesso!' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 
-asyncfunctiongetContato(req, res, next){
-    try {
-        constcontato = awaitContato.findById(req.params.id);
-        if (contato == null) {
-            returnres.status(404).json({ message: 'Contatonãoencontrado' });
-        }
-        res.contato = contato;
-        next();
-    } catch (err) {
-        returnres.status(500).json({ message: err.message });
+async function getContato(req, res, next) {
+  try {
+    const contato = await Contato.findById(req.params.id);
+    if (contato == null) {
+      return res.status(404).json({ message: 'Contato não encontrado' });
     }
+    res.contato = contato;
+    next();
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
 }
 
 
